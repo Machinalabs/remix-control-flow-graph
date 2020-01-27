@@ -1,29 +1,39 @@
 {
-  "name": "remix-control-flow-graph",
-  "private": true,
-  "description": "A visual debugger tool",
-  "version": "0.1.0",
-  "license": "MIT",
+  "name": "remix-cfg-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "test": "jest"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --config webpack.config.js",
+    "build": "webpack --config ./webpack.config.js",
+    "prettier": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "check-formatting": "prettier --list-different \"src/**/*.{ts,ts,js,json}\""
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@ethereum-react-components/cfg": "^1.1.0",
-    "@ethereum-react-components/ui": "^1.4.1",
+    "@ethereum-react/types": "^1.1.0",
+    "@ethereum-react/utilities": "^1.2.0",
     "@remixproject/plugin": "^0.1.18",
-    "gatsby": "^2.18.12",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "styled-components": "^4.4.1"
+    "d3": "^5.15.0",
+    "d3-selection": "^1.4.1",
+    "dagre-d3": "^0.6.4"
   },
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "@types/d3": "^5.7.2",
+    "@types/dagre-d3": "^0.4.39",
+    "awesome-typescript-loader": "^5.2.1",
+    "cross-env": "^6.0.3",
+    "dev-server": "^0.1.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "^1.19.1",
+    "source-map-loader": "^0.2.4",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "repository": {
     "type": "git",
