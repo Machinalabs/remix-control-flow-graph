@@ -1,0 +1,1117 @@
+[
+  {
+    "offset": 0,
+    "operations": [
+      {
+        "offset": 0,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "80"
+      },
+      {
+        "offset": 2,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "40"
+      },
+      {
+        "offset": 4,
+        "opcode": {
+          "name": "MSTORE",
+          "opcode": 82,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 5,
+        "opcode": {
+          "name": "CALLVALUE",
+          "opcode": 52,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 6,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 7,
+        "opcode": {
+          "name": "ISZERO",
+          "opcode": 21,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 8,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "f"
+      },
+      {
+        "offset": 10,
+        "opcode": {
+          "name": "JUMPI",
+          "opcode": 87,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 15,
+    "childB": 11
+  },
+  {
+    "offset": 11,
+    "operations": [
+      {
+        "offset": 11,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 13,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 14,
+        "opcode": {
+          "name": "REVERT",
+          "opcode": 253,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  },
+  {
+    "offset": 15,
+    "operations": [
+      {
+        "offset": 15,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 16,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 17,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "4"
+      },
+      {
+        "offset": 19,
+        "opcode": {
+          "name": "CALLDATASIZE",
+          "opcode": 54,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 20,
+        "opcode": {
+          "name": "LT",
+          "opcode": 16,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 21,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "4f"
+      },
+      {
+        "offset": 23,
+        "opcode": {
+          "name": "JUMPI",
+          "opcode": 87,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 79,
+    "childB": 24
+  },
+  {
+    "offset": 24,
+    "operations": [
+      {
+        "offset": 24,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 26,
+        "opcode": {
+          "name": "CALLDATALOAD",
+          "opcode": 53,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 27,
+        "opcode": {
+          "name": "PUSH29",
+          "opcode": 124,
+          "parameters": 29
+        },
+        "argument": "100000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "offset": 57,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 58,
+        "opcode": {
+          "name": "DIV",
+          "opcode": 4,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 59,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 60,
+        "opcode": {
+          "name": "PUSH4",
+          "opcode": 99,
+          "parameters": 4
+        },
+        "argument": "20965255"
+      },
+      {
+        "offset": 65,
+        "opcode": {
+          "name": "EQ",
+          "opcode": 20,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 66,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "54"
+      },
+      {
+        "offset": 68,
+        "opcode": {
+          "name": "JUMPI",
+          "opcode": 87,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 84,
+    "childB": 69
+  },
+  {
+    "offset": 69,
+    "operations": [
+      {
+        "offset": 69,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 70,
+        "opcode": {
+          "name": "PUSH4",
+          "opcode": 99,
+          "parameters": 4
+        },
+        "argument": "55241077"
+      },
+      {
+        "offset": 75,
+        "opcode": {
+          "name": "EQ",
+          "opcode": 20,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 76,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "70"
+      },
+      {
+        "offset": 78,
+        "opcode": {
+          "name": "JUMPI",
+          "opcode": 87,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 112,
+    "childB": 79
+  },
+  {
+    "offset": 79,
+    "operations": [
+      {
+        "offset": 79,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 80,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 82,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 83,
+        "opcode": {
+          "name": "REVERT",
+          "opcode": 253,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  },
+  {
+    "offset": 84,
+    "operations": [
+      {
+        "offset": 84,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 85,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "5a"
+      },
+      {
+        "offset": 87,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "9b"
+      },
+      {
+        "offset": 89,
+        "opcode": {
+          "name": "JUMP",
+          "opcode": 86,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 155
+  },
+  {
+    "offset": 90,
+    "operations": [
+      {
+        "offset": 90,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 91,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "40"
+      },
+      {
+        "offset": 93,
+        "opcode": {
+          "name": "MLOAD",
+          "opcode": 81,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 94,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 95,
+        "opcode": {
+          "name": "DUP3",
+          "opcode": 130,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 96,
+        "opcode": {
+          "name": "DUP2",
+          "opcode": 129,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 97,
+        "opcode": {
+          "name": "MSTORE",
+          "opcode": 82,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 98,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "20"
+      },
+      {
+        "offset": 100,
+        "opcode": {
+          "name": "ADD",
+          "opcode": 1,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 101,
+        "opcode": {
+          "name": "SWAP2",
+          "opcode": 145,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 102,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 103,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 104,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "40"
+      },
+      {
+        "offset": 106,
+        "opcode": {
+          "name": "MLOAD",
+          "opcode": 81,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 107,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 108,
+        "opcode": {
+          "name": "SWAP2",
+          "opcode": 145,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 109,
+        "opcode": {
+          "name": "SUB",
+          "opcode": 3,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 110,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 111,
+        "opcode": {
+          "name": "RETURN",
+          "opcode": 243,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  },
+  {
+    "offset": 112,
+    "operations": [
+      {
+        "offset": 112,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 113,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "99"
+      },
+      {
+        "offset": 115,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "4"
+      },
+      {
+        "offset": 117,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 118,
+        "opcode": {
+          "name": "CALLDATASIZE",
+          "opcode": 54,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 119,
+        "opcode": {
+          "name": "SUB",
+          "opcode": 3,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 120,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "20"
+      },
+      {
+        "offset": 122,
+        "opcode": {
+          "name": "DUP2",
+          "opcode": 129,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 123,
+        "opcode": {
+          "name": "LT",
+          "opcode": 16,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 124,
+        "opcode": {
+          "name": "ISZERO",
+          "opcode": 21,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 125,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "84"
+      },
+      {
+        "offset": 127,
+        "opcode": {
+          "name": "JUMPI",
+          "opcode": 87,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 132,
+    "childB": 128
+  },
+  {
+    "offset": 128,
+    "operations": [
+      {
+        "offset": 128,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 130,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 131,
+        "opcode": {
+          "name": "REVERT",
+          "opcode": 253,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  },
+  {
+    "offset": 132,
+    "operations": [
+      {
+        "offset": 132,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 133,
+        "opcode": {
+          "name": "DUP2",
+          "opcode": 129,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 134,
+        "opcode": {
+          "name": "ADD",
+          "opcode": 1,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 135,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 136,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 137,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 138,
+        "opcode": {
+          "name": "CALLDATALOAD",
+          "opcode": 53,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 139,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 140,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "20"
+      },
+      {
+        "offset": 142,
+        "opcode": {
+          "name": "ADD",
+          "opcode": 1,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 143,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 144,
+        "opcode": {
+          "name": "SWAP3",
+          "opcode": 146,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 145,
+        "opcode": {
+          "name": "SWAP2",
+          "opcode": 145,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 146,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 147,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 148,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 149,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 150,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "a4"
+      },
+      {
+        "offset": 152,
+        "opcode": {
+          "name": "JUMP",
+          "opcode": 86,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 164
+  },
+  {
+    "offset": 153,
+    "operations": [
+      {
+        "offset": 153,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 154,
+        "opcode": {
+          "name": "STOP",
+          "opcode": 0,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  },
+  {
+    "offset": 155,
+    "operations": [
+      {
+        "offset": 155,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 156,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 158,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 159,
+        "opcode": {
+          "name": "SLOAD",
+          "opcode": 84,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 160,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 161,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 162,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 163,
+        "opcode": {
+          "name": "JUMP",
+          "opcode": 86,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 90
+  },
+  {
+    "offset": 164,
+    "operations": [
+      {
+        "offset": 164,
+        "opcode": {
+          "name": "JUMPDEST",
+          "opcode": 91,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 165,
+        "opcode": {
+          "name": "DUP1",
+          "opcode": 128,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 166,
+        "opcode": {
+          "name": "PUSH1",
+          "opcode": 96,
+          "parameters": 1
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 168,
+        "opcode": {
+          "name": "DUP2",
+          "opcode": 129,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 169,
+        "opcode": {
+          "name": "SWAP1",
+          "opcode": 144,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 170,
+        "opcode": {
+          "name": "SSTORE",
+          "opcode": 85,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 171,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 172,
+        "opcode": {
+          "name": "POP",
+          "opcode": 80,
+          "parameters": 0
+        },
+        "argument": "0"
+      },
+      {
+        "offset": 173,
+        "opcode": {
+          "name": "JUMP",
+          "opcode": 86,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ],
+    "childA": 153
+  },
+  {
+    "offset": 174,
+    "operations": [
+      {
+        "offset": 174,
+        "opcode": {
+          "name": "INVALID",
+          "opcode": 254,
+          "parameters": 0
+        },
+        "argument": "0"
+      }
+    ]
+  }
+]
