@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { createIframeClient, RemixTx, CompilationResult } from "@remixproject/plugin"
+import {
+  createIframeClient,
+  RemixTx,
+  CompilationResult,
+} from "@remixproject/plugin"
 
 // import { Debugger } from "@ethereum-react-components/ui"
 import { ControlFlowGraphCreator } from "@ethereum-react/utilities"
@@ -69,9 +73,9 @@ export const RemixDebugger: React.FC = () => {
           // setBlocks(blocks)
           // setTraces(traces)
           // this.cfgRenderer.renderGraph(controlFlowGraphResult.contractRuntime.blocks.values() as any, traces)
-          client.emit('statusChanged', {
-            key: 'succeed',
-            type: 'success',
+          client.emit("statusChanged", {
+            key: "succeed",
+            type: "success",
             title: `Control flow graph successfully generated`,
           })
         } catch (error) {
@@ -80,43 +84,45 @@ export const RemixDebugger: React.FC = () => {
         }
       })
 
-      client.solidity.on("compilationFinished", async (fileName, source, languageVersion, data) => {
-        console.log("A compilation finished")
-        if (!isInitialized) {
-          setIsInitialized(true)
+      client.solidity.on(
+        "compilationFinished",
+        async (fileName, source, languageVersion, data) => {
+          console.log("A compilation finished")
+          if (!isInitialized) {
+            setIsInitialized(true)
+          }
+          // console.log("Has Error before", hasError)
+          // setHasError(false)
+          // console.log("Has Error after", hasError)
+
+          try {
+            // console.log("Has error", hasError)
+            const solidityVersion = getSolidityVersionFromData(data)
+            console.log("Solidity version", solidityVersion)
+
+            const bytecode = await getContractByteCode(data, false)
+            console.log("Bytecode", bytecode)
+
+            // const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
+            //     bytecode,
+            //     solidityVersion
+            // )
+
+            // console.log("Control flow graph result", controlFlowGraphResult)
+
+            // setBlocks(controlFlowGraphResult.contractConstructor.blocks)
+            // setTraces([])
+            // this.cfgRenderer.renderGraph(controlFlowGraphResult.contractConstructor.blocks.values() as any, null)
+            client.emit("statusChanged", {
+              key: "succeed",
+              type: "success",
+              title: `Control flow graph successfully generated`,
+            })
+          } catch (error) {
+            console.log(`An error ocurrer ${error}`)
+            setHasError(true)
+          }
         }
-        // console.log("Has Error before", hasError)
-        // setHasError(false)
-        // console.log("Has Error after", hasError)
-
-        try {
-          // console.log("Has error", hasError)
-          const solidityVersion = getSolidityVersionFromData(data)
-          console.log("Solidity version", solidityVersion)
-
-          const bytecode = await getContractByteCode(data, false)
-          console.log("Bytecode", bytecode)
-
-          // const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-          //     bytecode,
-          //     solidityVersion
-          // )
-
-          // console.log("Control flow graph result", controlFlowGraphResult)
-
-          // setBlocks(controlFlowGraphResult.contractConstructor.blocks)
-          // setTraces([])
-          // this.cfgRenderer.renderGraph(controlFlowGraphResult.contractConstructor.blocks.values() as any, null) 
-          client.emit('statusChanged', {
-            key: 'succeed',
-            type: 'success',
-            title: `Control flow graph successfully generated`,
-          })
-        } catch (error) {
-          console.log(`An error ocurrer ${error}`)
-          setHasError(true)
-        }
-      }
       )
     }
     loadClient()
@@ -124,16 +130,22 @@ export const RemixDebugger: React.FC = () => {
 
   useEffect(() => {
     if (hasError) {
-      clientInstance.emit('statusChanged', {
-        key: 'failed',
-        type: 'error',
+      clientInstance.emit("statusChanged", {
+        key: "failed",
+        type: "error",
         title: `There was an error while generating the CFG`,
       })
       setHasError(false)
     }
   }, [hasError])
 
-  return (hasError ? <ErrorView /> : isInitialized ? <h1>Initialized</h1> : <HomeView />)
+  return hasError ? (
+    <ErrorView />
+  ) : isInitialized ? (
+    <h1>Initialized</h1>
+  ) : (
+    <HomeView />
+  )
 }
 
 // The component itself should know how to do

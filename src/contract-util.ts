@@ -1,7 +1,10 @@
 import { CompilerVersion } from "@ethereum-react/types"
 import { CompilationResult } from "@remixproject/plugin"
 
-export const getContractByteCode = (data: CompilationResult, isContractCreation: boolean) => {
+export const getContractByteCode = (
+  data: CompilationResult,
+  isContractCreation: boolean
+) => {
   const contracts = data.contracts
 
   for (const file of Object.keys(contracts)) {
@@ -23,7 +26,9 @@ export const getSolidityVersionFromData = (data: CompilationResult) => {
 
   for (const file of Object.keys(contracts)) {
     for (const contract of Object.keys(contracts[file])) {
-      const currentContractMetadata = JSON.parse(contracts[file][contract].metadata)
+      const currentContractMetadata = JSON.parse(
+        contracts[file][contract].metadata
+      )
       const compilerVersion = currentContractMetadata.compiler.version as string
       if (compilerVersion.match(SOLIDITY_VERSION_4_REGEX)) {
         return CompilerVersion.SOLIDITY_4
