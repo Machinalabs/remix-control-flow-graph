@@ -1,13 +1,8 @@
-import { CompilationResult, CustomApi, ICompiler } from "@remixproject/plugin"
+import { CompilerVersion } from "@ethereum-react/types"
+import { CompilationResult } from "@remixproject/plugin"
 
-export const getContractByteCode = async (
-  solidity: CustomApi<ICompiler>,
-  isContractCreation: boolean
-) => {
-  const compilationResult: CompilationResult = await solidity.getCompilationResult()
-  console.log("Compilation Result", compilationResult)
-
-  const contracts = (compilationResult as any).data.contracts
+export const getContractByteCode = (data: CompilationResult, isContractCreation: boolean) => {
+  const contracts = data.contracts
 
   for (const file of Object.keys(contracts)) {
     for (const contract of Object.keys(contracts[file])) {
@@ -15,10 +10,29 @@ export const getContractByteCode = async (
       const bytecode = isContractCreation
         ? currentContractEVMData.bytecode.object
         : currentContractEVMData.deployedBytecode.object
-
-      // const bytecode = currentContractEVMData.bytecode.object
-
       return bytecode
+    }
+  }
+}
+
+const SOLIDITY_VERSION_4_REGEX = new RegExp(/0.4.\d+/)
+const SOLIDITY_VERSION_5_REGEX = new RegExp(/0.5.\d+/)
+
+export const getSolidityVersionFromData = (data: CompilationResult) => {
+  const contracts = data.contracts
+
+  for (const file of Object.keys(contracts)) {
+    for (const contract of Object.keys(contracts[file])) {
+      const currentContractMetadata = JSON.parse(contracts[file][contract].metadata)
+      const compilerVersion = currentContractMetadata.compiler.version as string
+      if (compilerVersion.match(SOLIDITY_VERSION_4_REGEX)) {
+        return CompilerVersion.SOLIDITY_4
+      }
+      if (compilerVersion.match(SOLIDITY_VERSION_5_REGEX)) {
+        return CompilerVersion.SOLIDITY_5
+      }
+
+      throw new Error(`Unsupported solidity version ${compilerVersion}`)
     }
   }
 }

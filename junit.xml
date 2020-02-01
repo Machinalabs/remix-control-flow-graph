@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="5" failures="0" time="2.111">
+  <testsuite name="Contract utils test" errors="0" failures="0" skipped="0" timestamp="2020-01-30T17:17:18" time="2.032" tests="5">
+    <testcase classname="Contract utils test getContractByteCode bytecode for contract creation" name="Contract utils test getContractByteCode bytecode for contract creation" time="0.004">
+    </testcase>
+    <testcase classname="Contract utils test getContractByteCode bytecode for contract runtime" name="Contract utils test getContractByteCode bytecode for contract runtime" time="0.001">
+    </testcase>
+    <testcase classname="Contract utils test getSolidityVersionFromData solidity version 4" name="Contract utils test getSolidityVersionFromData solidity version 4" time="0.001">
+    </testcase>
+    <testcase classname="Contract utils test getSolidityVersionFromData solidity version 5" name="Contract utils test getSolidityVersionFromData solidity version 5" time="0">
+    </testcase>
+    <testcase classname="Contract utils test getSolidityVersionFromData solidity version 6" name="Contract utils test getSolidityVersionFromData solidity version 6" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>

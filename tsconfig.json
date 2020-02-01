@@ -1,22 +1,14 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false,
-    "checkJs": false,
-    "skipLibCheck": false,
-    "noImplicitAny": false,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "sourceMap": true,
-    "strictNullChecks": false
-  },
-  "exclude": ["node_modules", "webpack.*.js"]
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+        "rootDir": "src",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "jsx": "react"
+    },
+    "include": [
+        "src"
+    ]
 }

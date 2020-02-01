@@ -1,45 +1,58 @@
 {
   "name": "remix-cfg-plugin",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Remix plugin to visualise control flow graphs",
+  "main": "webpack.config.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --hot --config webpack.config.js",
-    "build": "webpack --config ./webpack.config.js",
-    "prettier": "prettier --write \"src/**/*.{ts,js,json}\"",
-    "check-formatting": "prettier --list-different \"src/**/*.{ts,ts,js,json}\""
+    "start": "webpack-dev-server",
+    "bundle": "webpack",
+    "test": "jest",
+    "test:ci": "jest --runInBand --detectOpenHandles --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=text-lcov | coveralls",
+    "tslint": "tslint -p . -c tslint.json",
+    "tslint:fix": "tslint --fix -p . -c tslint.json",
+    "prettier": "prettier --write 'src/**/*.{ts,,tsx,js,json}'",
+    "check-formatting": "prettier --list-different 'src/**/*.{ts,ts,js,json}'",
+    "publish": "npm run bundle && surge --project ./dist --domain remix-control-flow-gas.surge.sh"
   },
-  "author": "",
+  "keywords": [],
+  "author": "Solid Studio Team",
   "license": "ISC",
-  "dependencies": {
-    "@ethereum-react/types": "^1.1.0",
-    "@ethereum-react/utilities": "^1.2.0",
-    "@remixproject/plugin": "^0.1.18",
-    "d3": "^5.15.0",
-    "d3-selection": "^1.4.1",
-    "dagre-d3": "^0.6.4"
-  },
   "devDependencies": {
     "@types/d3": "^5.7.2",
     "@types/dagre-d3": "^0.4.39",
+    "@types/jest": "^25.1.1",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "awesome-typescript-loader": "^5.2.1",
-    "cross-env": "^6.0.3",
-    "dev-server": "^0.1.0",
-    "html-loader": "^0.5.5",
+    "css-loader": "^3.4.2",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
     "prettier": "^1.19.1",
     "source-map-loader": "^0.2.4",
+    "style-loader": "^1.1.3",
+    "styled-components": "^5.0.0",
+    "ts-jest": "^25.1.0",
+    "ts-loader": "^6.2.1",
+    "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.3",
-    "webpack": "^4.41.2",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.7.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/solid-studio/remix-control-flow-graph"
-  },
-  "bugs": {
-    "url": "https://github.com/solid-studio/remix-control-flow-graph/issues"
+  "dependencies": {
+    "@ethereum-react-components/cfg": "^1.1.0",
+    "@ethereum-react-components/ui": "^1.4.1",
+    "@ethereum-react/types": "^1.2.0",
+    "@ethereum-react/utilities": "^1.3.0",
+    "@remixproject/plugin": "^0.1.9",
+    "@types/node": "^13.5.2",
+    "d3": "^5.15.0",
+    "d3-selection": "^1.4.1",
+    "dagre-d3": "^0.6.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "tslint-react": "^4.2.0"
   }
 }

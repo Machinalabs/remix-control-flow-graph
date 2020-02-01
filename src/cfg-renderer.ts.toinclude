@@ -1,9 +1,10 @@
 import dagreD3 from "dagre-d3"
-import * as d3 from "d3"
+import d3 from "d3"
 import { Selection } from "d3-selection"
 import { OperationBlock, Operation } from "@ethereum-react/types"
+import { DebugTrace } from '@ethereum-react/types'
 
-export type Trace = Array<{
+export type Trace = Array<{ // structLog
   depth: number
   error?: any
   gas: string
@@ -14,6 +15,18 @@ export type Trace = Array<{
   stack?: string[]
   storage?: any
 }>
+
+// structLogs: Array<{
+//   depth: number;
+//   error: string;
+//   gas: number;
+//   gasCost: number;
+//   memory: string[];
+//   op: string;
+//   pc: number;
+//   stack: string[];
+//   storage: any;
+// }>;
 
 export interface IGraphOptions {
   dir: "LR" | "TB"
