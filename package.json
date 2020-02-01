@@ -7,7 +7,7 @@
     "start": "webpack-dev-server",
     "bundle": "webpack",
     "test": "jest",
-    "test:ci": "jest --runInBand --detectOpenHandles --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=text-lcov | coveralls",
+    "test:ci": "jest --runInBand --detectOpenHandles --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=text-lcov",
     "tslint": "tslint -p . -c tslint.json",
     "tslint:fix": "tslint --fix -p . -c tslint.json",
     "prettier": "prettier --write 'src/**/*.{ts,,tsx,js,json}'",
