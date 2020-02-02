@@ -5,7 +5,10 @@ import { Debugger } from "./temporal-components/Debugger"
 import { ControlFlowGraphCreator } from "@ethereum-react/utilities"
 
 import { HomeView, ErrorView } from "./views"
-import { getContractByteCode, getSolidityVersionFromData } from "./contract-util"
+import {
+  getContractByteCode,
+  getSolidityVersionFromData,
+} from "./contract-util"
 
 const devMode = { port: 8000 }
 
@@ -60,7 +63,9 @@ export const RemixDebugger: React.FC = () => {
           )
           console.log("Control flow graph result", controlFlowGraphResult)
 
-          const blocks = isContractCreation ? controlFlowGraphResult.contractConstructor.blocks : controlFlowGraphResult.contractRuntime.blocks
+          const blocks = isContractCreation
+            ? controlFlowGraphResult.contractConstructor.blocks
+            : controlFlowGraphResult.contractRuntime.blocks
 
           setBlocks(blocks)
           setTraces(traces)
@@ -70,7 +75,6 @@ export const RemixDebugger: React.FC = () => {
             type: "success",
             title: `Control flow graph successfully generated`,
           })
-
         } catch (error) {
           console.log(`An error ocurrer ${error}`)
           setHasError(true)
@@ -116,7 +120,6 @@ export const RemixDebugger: React.FC = () => {
     }
 
     loadClient()
-
   }, [])
 
   useEffect(() => {
@@ -129,5 +132,11 @@ export const RemixDebugger: React.FC = () => {
       setHasError(false)
     }
   }, [hasError])
-  return (hasError ? <ErrorView /> : isInitialized ? <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} /> : <HomeView />)
+  return hasError ? (
+    <ErrorView />
+  ) : isInitialized ? (
+    <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} />
+  ) : (
+    <HomeView />
+  )
 }

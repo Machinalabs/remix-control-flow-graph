@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import dagreD3 from 'dagre-d3'
-import * as d3 from 'd3'
-import styled from 'styled-components'
-import { OperationBlock, Operation, CFGBlocks } from '@ethereum-react/types'
-import { Selection } from 'd3-selection'
+import React, { useState } from "react"
+import dagreD3 from "dagre-d3"
+import * as d3 from "d3"
+import styled from "styled-components"
+import { OperationBlock, Operation, CFGBlocks } from "@ethereum-react/types"
+import { Selection } from "d3-selection"
 
-import { TransactionTrace } from './types'
+import { TransactionTrace } from "./types"
 
 export interface ICFGraphProps {
   blocks: CFGBlocks
@@ -16,7 +16,7 @@ export interface ICFGraphProps {
 }
 
 export interface IGraphOptions {
-  dir: 'LR' | 'TB'
+  dir: "LR" | "TB"
 }
 
 const offsetColWidth = 60
@@ -39,8 +39,8 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
 
   const renderGraph = () => {
     const g = new dagreD3.graphlib.Graph().setGraph({
-      rankdir: 'LR',
-      nodesep: 80
+      rankdir: "LR",
+      nodesep: 80,
     })
 
     // Create the renderer
@@ -55,7 +55,7 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
     })
 
     // clear graph
-    inner.selectAll('*').remove()
+    inner.selectAll("*").remove()
 
     // reset display
     svg.call(zoom.transform, d3.zoomIdentity)
@@ -63,12 +63,12 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
     // render blocks
     const blockKeys = props.blocks.keys()
 
-    blockKeys.forEach((key) => {
+    blockKeys.forEach(key => {
       const block = props.blocks.get(key)
       renderBlock(block, g)
     })
 
-    blockKeys.forEach((key) => {
+    blockKeys.forEach(key => {
       const block = props.blocks.get(key)
       renderEdges(block, g)
     })
@@ -81,14 +81,16 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
 
   const opSelected = (op: Operation) => {
     if (props.operationSelected) {
-      props.operationSelected(op) // this triggers callback.. but now the next part is to make block hightlight when an element within is selected
-      // it should be by offset...
-      debugger;
+      props.operationSelected(op)
+      // TODO: Highlight blocks
       // setActiveBlocks(props.blocks.find(b => b.operations.includes(op)))
     }
   }
 
-  const renderBlock = (block: OperationBlock, graph: dagreD3.graphlib.Graph) => {
+  const renderBlock = (
+    block: OperationBlock,
+    graph: dagreD3.graphlib.Graph
+  ) => {
     const svgWrap = d3.create("svg")
     const g = svgWrap.append("g")
 
@@ -112,12 +114,16 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
       paddingLeft: nodePadding,
       paddingRight: nodePadding,
       paddingTop: nodePadding,
-      paddingBottom: nodePadding
+      paddingBottom: nodePadding,
     })
   }
 
   const isInTrace = (op: Operation) => {
-    return props.trace && props.trace.structLogs && !!props.trace.structLogs.find(t => t.pc === op.offset)
+    return (
+      props.trace &&
+      props.trace.structLogs &&
+      !!props.trace.structLogs.find(t => t.pc === op.offset)
+    )
   }
 
   const cellRenderer = (
@@ -164,7 +170,9 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
   }
 
   const getOperationArg = (op: Operation) => {
-    return op.opcode.name.startsWith('PUSH') ? '0x' + op.argument.toString(16).toUpperCase() : ''
+    return op.opcode.name.startsWith("PUSH")
+      ? "0x" + op.argument.toString(16).toUpperCase()
+      : ""
   }
 
   const renderOpRowsOutline = (
@@ -173,55 +181,89 @@ export const CFGraph: React.FC<ICFGraphProps> = (props: ICFGraphProps) => {
     options
   ) => {
     const selection = g
-      .selectAll('rect')
+      .selectAll("rect")
       .data(operations)
       .enter()
 
-    cellRenderer(selection, 'offset', offsetColWidth, 0)
-    cellRenderer(selection, 'op', opNameColWidth, offsetColWidth)
-    cellRenderer(selection, 'argument',
+    cellRenderer(selection, "offset", offsetColWidth, 0)
+    cellRenderer(selection, "op", opNameColWidth, offsetColWidth)
+    cellRenderer(
+      selection,
+      "argument",
       options.argumentColLength,
-      offsetColWidth + opNameColWidth)
+      offsetColWidth + opNameColWidth
+    )
   }
 
-  const renderText = (g: Selection<SVGGElement, undefined, null, undefined>, operations: Operation[], options) => {
+  const renderText = (
+    g: Selection<SVGGElement, undefined, null, undefined>,
+    operations: Operation[],
+    options
+  ) => {
     const selection = g
-      .selectAll('text')
+      .selectAll("text")
       .data(operations)
       .enter()
 
-    textRenderer(selection, 'offset', d => '0x' + d.offset.toString(16).toUpperCase(), offsetColWidth, 0)
-    textRenderer(selection, 'op', d => d.opcode.name.toUpperCase(), opNameColWidth, offsetColWidth)
     textRenderer(
       selection,
-      'argument',
+      "offset",
+      d => "0x" + d.offset.toString(16).toUpperCase(),
+      offsetColWidth,
+      0
+    )
+    textRenderer(
+      selection,
+      "op",
+      d => d.opcode.name.toUpperCase(),
+      opNameColWidth,
+      offsetColWidth
+    )
+    textRenderer(
+      selection,
+      "argument",
       d => getOperationArg(d),
       options.argumentColLength,
       offsetColWidth + opNameColWidth
     )
   }
 
-  const renderEdges = (block: OperationBlock, graph: dagreD3.graphlib.Graph) => {
+  const renderEdges = (
+    block: OperationBlock,
+    graph: dagreD3.graphlib.Graph
+  ) => {
     if (block.childA) {
-      graph.setEdge(block.operations[0].offset.toString(), block.childA.toString(), { label: '' })
+      graph.setEdge(
+        block.operations[0].offset.toString(),
+        block.childA.toString(),
+        { label: "" }
+      )
     }
 
     if (block.childB) {
-      graph.setEdge(block.operations[0].offset.toString(), block.childB.toString(), { label: '' })
+      graph.setEdge(
+        block.operations[0].offset.toString(),
+        block.childB.toString(),
+        { label: "" }
+      )
     }
   }
 
   return (
     <StyledWrapper>
-      {props.renderTrigger &&
-        <button id="btn" className="btn btn-primary" onClick={() => renderGraph()}>
+      {props.renderTrigger && (
+        <button
+          id="btn"
+          className="btn btn-primary"
+          onClick={() => renderGraph()}
+        >
           Render CFG
-     </button>}
+        </button>
+      )}
       <svg ref={svgElemRef} id="graph" width="100%" height="100%">
         <g ref={innerElemRef} />
       </svg>
     </StyledWrapper>
-
   )
 }
 
