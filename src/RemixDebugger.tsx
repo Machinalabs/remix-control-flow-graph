@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { createIframeClient } from "@remixproject/plugin"
 
-import { Debugger } from "./temporal-components/Debugger"
+import { Debugger } from "@ethereum-react/components"
 import { ControlFlowGraphCreator } from "@ethereum-react/utilities"
 
 import { HomeView, ErrorView } from "./views"
@@ -137,6 +137,6 @@ export const RemixDebugger: React.FC = () => {
   ) : isInitialized ? (
     <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} />
   ) : (
-    <HomeView />
-  )
+        <HomeView />
+      )
 }
