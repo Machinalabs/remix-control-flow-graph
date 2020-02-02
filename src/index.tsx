@@ -5,4 +5,4 @@ import { RemixDebugger } from "./RemixDebugger"
 
 import "./index.css"
 
-ReactDOM.render(<RemixDebugger />, document.getElementById("example"))
+ReactDOM.render(<RemixDebugger />, document.getElementById("root"))

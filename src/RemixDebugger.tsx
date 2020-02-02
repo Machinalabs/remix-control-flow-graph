@@ -1,26 +1,17 @@
 import React, { useState, useEffect } from "react"
-import {
-  createIframeClient,
-  RemixTx,
-  CompilationResult,
-} from "@remixproject/plugin"
+import { createIframeClient } from "@remixproject/plugin"
 
-// import { Debugger } from "@ethereum-react-components/ui"
+import { Debugger } from "./temporal-components/Debugger"
 import { ControlFlowGraphCreator } from "@ethereum-react/utilities"
-import { CompilerVersion } from "@ethereum-react/types"
 
 import { HomeView, ErrorView } from "./views"
-import {
-  getContractByteCode,
-  getSolidityVersionFromData,
-} from "./contract-util"
+import { getContractByteCode, getSolidityVersionFromData } from "./contract-util"
 
 const devMode = { port: 8000 }
 
 export const RemixDebugger: React.FC = () => {
   const [clientInstance, setClientInstance] = useState(undefined)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [traces, setTraces] = useState([])
+  const [traces, setTraces] = useState(undefined)
   const [isInitialized, setIsInitialized] = useState(false)
   const [blocks, setBlocks] = useState(undefined)
   const [hasError, setHasError] = useState(false)
@@ -29,11 +20,10 @@ export const RemixDebugger: React.FC = () => {
     const client = createIframeClient({ devMode })
     const loadClient = async () => {
       await client.onload()
-      setIsLoaded(true)
       setClientInstance(client)
+
       console.log("Remix Control Flow Graph Plugin has been loaded")
 
-      console.log("NEVER EXECUTED")
       client.udapp.on("newTransaction", async (transaction: any) => {
         console.log("A new transaction was sent", transaction)
 
@@ -63,21 +53,24 @@ export const RemixDebugger: React.FC = () => {
             (compilationResult as any).data
           )
           console.log("Solidity version", solidityVersion)
-          // const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-          //     bytecode,
-          //     solidityVersion
-          // )
 
-          // const blocks = isContractCreation ? controlFlowGraphResult.contractConstructor.blocks : controlFlowGraphResult.contractRuntime.blocks
+          const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
+            bytecode,
+            solidityVersion
+          )
+          console.log("Control flow graph result", controlFlowGraphResult)
 
-          // setBlocks(blocks)
-          // setTraces(traces)
-          // this.cfgRenderer.renderGraph(controlFlowGraphResult.contractRuntime.blocks.values() as any, traces)
+          const blocks = isContractCreation ? controlFlowGraphResult.contractConstructor.blocks : controlFlowGraphResult.contractRuntime.blocks
+
+          setBlocks(blocks)
+          setTraces(traces)
+
           client.emit("statusChanged", {
             key: "succeed",
             type: "success",
             title: `Control flow graph successfully generated`,
           })
+
         } catch (error) {
           console.log(`An error ocurrer ${error}`)
           setHasError(true)
@@ -91,28 +84,24 @@ export const RemixDebugger: React.FC = () => {
           if (!isInitialized) {
             setIsInitialized(true)
           }
-          // console.log("Has Error before", hasError)
-          // setHasError(false)
-          // console.log("Has Error after", hasError)
 
           try {
-            // console.log("Has error", hasError)
             const solidityVersion = getSolidityVersionFromData(data)
             console.log("Solidity version", solidityVersion)
 
             const bytecode = await getContractByteCode(data, false)
             console.log("Bytecode", bytecode)
 
-            // const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-            //     bytecode,
-            //     solidityVersion
-            // )
+            const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
+              bytecode,
+              solidityVersion
+            )
 
-            // console.log("Control flow graph result", controlFlowGraphResult)
+            console.log("Control flow graph result", controlFlowGraphResult)
 
-            // setBlocks(controlFlowGraphResult.contractConstructor.blocks)
-            // setTraces([])
-            // this.cfgRenderer.renderGraph(controlFlowGraphResult.contractConstructor.blocks.values() as any, null)
+            setBlocks(controlFlowGraphResult.contractRuntime.blocks)
+            setTraces([])
+
             client.emit("statusChanged", {
               key: "succeed",
               type: "success",
@@ -125,7 +114,9 @@ export const RemixDebugger: React.FC = () => {
         }
       )
     }
+
     loadClient()
+
   }, [])
 
   useEffect(() => {
@@ -138,22 +129,5 @@ export const RemixDebugger: React.FC = () => {
       setHasError(false)
     }
   }, [hasError])
-
-  return hasError ? (
-    <ErrorView />
-  ) : isInitialized ? (
-    <h1>Initialized</h1>
-  ) : (
-    <HomeView />
-  )
+  return (hasError ? <ErrorView /> : isInitialized ? <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} /> : <HomeView />)
 }
-
-// The component itself should know how to do
-// clear graph
-// render
-// I just pass CFGBlocks and traces
-
-// Modes
-// compilation -> just bytecode
-// transaction creation
-// transaction
