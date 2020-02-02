@@ -49,9 +49,8 @@ export const HomeView: React.FC = () => {
         <a
           target="_blank"
           href="mailto:admin@getsolidstudio.com"
-          className="card-link"
-        >
-          Solid Studio Team
+          className="card-link">
+          Machina Labs Team
         </a>
       </div>
     </div>
