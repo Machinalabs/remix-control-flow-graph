@@ -4,6 +4,15 @@
 <head>
     <meta charset="UTF-8" />
     <title>Remix Control Flow Graph!</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146337217-4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-146337217-4');
+    </script>
 
     <style>
         *,
@@ -26,11 +35,15 @@
             color: #333;
             padding: 1em 1em;
         }
+
+        #root {
+            height: 100%;
+        }
     </style>
 </head>
 
 <body>
-    <div id="example"></div>
+    <div id="root"></div>
 </body>
 
 </html>
