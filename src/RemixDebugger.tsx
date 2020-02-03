@@ -75,6 +75,7 @@ export const RemixDebugger: React.FC = () => {
             type: "success",
             title: `Control flow graph successfully generated`,
           })
+          setHasError(false)
         } catch (error) {
           console.log(`An error ocurrer ${error}`)
           setHasError(true)
@@ -104,13 +105,14 @@ export const RemixDebugger: React.FC = () => {
             console.log("Control flow graph result", controlFlowGraphResult)
 
             setBlocks(controlFlowGraphResult.contractRuntime.blocks)
-            setTraces([])
+            setTraces(undefined)
 
             client.emit("statusChanged", {
               key: "succeed",
               type: "success",
               title: `Control flow graph successfully generated`,
             })
+            setHasError(false)
           } catch (error) {
             console.log(`An error ocurrer ${error}`)
             setHasError(true)
@@ -129,14 +131,8 @@ export const RemixDebugger: React.FC = () => {
         type: "error",
         title: `There was an error while generating the CFG`,
       })
-      setHasError(false)
     }
   }, [hasError])
-  return hasError ? (
-    <ErrorView />
-  ) : isInitialized ? (
-    <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} />
-  ) : (
-        <HomeView />
-      )
+  return hasError ? <ErrorView /> : isInitialized ? <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} /> : <HomeView />
+
 }
