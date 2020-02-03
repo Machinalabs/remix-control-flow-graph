@@ -67,6 +67,9 @@ export const RemixDebugger: React.FC = () => {
             ? controlFlowGraphResult.contractConstructor.blocks
             : controlFlowGraphResult.contractRuntime.blocks
 
+          if (!blocks) {
+            throw new Error("Couldn't get the blocks")
+          }
           setBlocks(blocks)
           setTraces(traces)
 
