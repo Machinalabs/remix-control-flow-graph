@@ -10,8 +10,8 @@
     "test:ci": "jest --runInBand --detectOpenHandles --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=text-lcov | coveralls",
     "tslint": "tslint -p . -c tslint.json",
     "tslint:fix": "tslint --fix -p . -c tslint.json",
-    "prettier": "prettier --write 'src/**/*.{ts,,tsx,js,json}'",
-    "check-formatting": "prettier --list-different 'src/**/*.{ts,ts,js,json}'",
+    "prettier": "prettier --write \"src/**/*.{ts,,tsx,js,json}\"",
+    "check-formatting": "prettier --list-different \"src/**/*.{ts,ts,js,json}\"",
     "publish": "npm run bundle && surge --project ./dist --domain remix-control-flow-gas.surge.sh"
   },
   "keywords": [],

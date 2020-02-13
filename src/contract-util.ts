@@ -13,7 +13,7 @@ export const getContractByteCode = (
       const bytecode = isContractCreation
         ? currentContractEVMData.bytecode.object
         : currentContractEVMData.deployedBytecode.object
-      return bytecode
+      return { bytecode, contract, contractFile: file }
     }
   }
 }

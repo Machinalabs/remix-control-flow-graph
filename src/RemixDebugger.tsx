@@ -9,8 +9,9 @@ import {
   getContractByteCode,
   getSolidityVersionFromData,
 } from "./contract-util"
+import { Header } from "./components/header"
 
-const devMode = { port: 8000 }
+const devMode = { port: 8080 }
 
 export const RemixDebugger: React.FC = () => {
   const [clientInstance, setClientInstance] = useState(undefined)
@@ -18,6 +19,10 @@ export const RemixDebugger: React.FC = () => {
   const [isInitialized, setIsInitialized] = useState(false)
   const [blocks, setBlocks] = useState(undefined)
   const [hasError, setHasError] = useState(false)
+  const [contract, setContract] = useState("")
+  const [txHash, setTxHash] = useState("")
+
+  const [renderMode, setRenderMode] = useState(undefined)
 
   useEffect(() => {
     const client = createIframeClient({ devMode })
@@ -29,6 +34,7 @@ export const RemixDebugger: React.FC = () => {
 
       client.udapp.on("newTransaction", async (transaction: any) => {
         console.log("A new transaction was sent", transaction)
+        setRenderMode(null)
 
         if (!isInitialized) {
           setIsInitialized(true)
@@ -46,11 +52,14 @@ export const RemixDebugger: React.FC = () => {
           const compilationResult = await client.solidity.getCompilationResult()
           console.log("Compilation Result", compilationResult)
 
-          const bytecode = await getContractByteCode(
+          const contractData = await getContractByteCode(
             (compilationResult as any).data,
             isContractCreation
           )
-          console.log("bytecode", bytecode)
+
+          setContract(`${contractData.contract} - ${contractData.contractFile}`)
+          setTxHash(hash)
+          console.log("Contract data", contractData)
 
           const solidityVersion = getSolidityVersionFromData(
             (compilationResult as any).data
@@ -58,7 +67,7 @@ export const RemixDebugger: React.FC = () => {
           console.log("Solidity version", solidityVersion)
 
           const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-            bytecode,
+            contractData.bytecode,
             solidityVersion
           )
           console.log("Control flow graph result", controlFlowGraphResult)
@@ -74,10 +83,11 @@ export const RemixDebugger: React.FC = () => {
           setTraces(traces)
 
           client.emit("statusChanged", {
-            key: "succeed",
+            key: "edited",
             type: "success",
-            title: `Control flow graph successfully generated`,
+            title: `Data changed. Run render to update graph`,
           })
+
           setHasError(false)
         } catch (error) {
           console.log(`An error ocurrer ${error}`)
@@ -89,6 +99,9 @@ export const RemixDebugger: React.FC = () => {
         "compilationFinished",
         async (fileName, source, languageVersion, data) => {
           console.log("A compilation finished")
+
+          setRenderMode(null)
+
           if (!isInitialized) {
             setIsInitialized(true)
           }
@@ -97,11 +110,15 @@ export const RemixDebugger: React.FC = () => {
             const solidityVersion = getSolidityVersionFromData(data)
             console.log("Solidity version", solidityVersion)
 
-            const bytecode = await getContractByteCode(data, false)
-            console.log("Bytecode", bytecode)
+            const contractData = await getContractByteCode(data, false)
+            console.log("Contract data", contractData)
+
+            setContract(
+              `${contractData.contract} - ${contractData.contractFile}`
+            )
 
             const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-              bytecode,
+              contractData.bytecode,
               solidityVersion
             )
 
@@ -111,9 +128,9 @@ export const RemixDebugger: React.FC = () => {
             setTraces(undefined)
 
             client.emit("statusChanged", {
-              key: "succeed",
+              key: "edited",
               type: "success",
-              title: `Control flow graph successfully generated`,
+              title: `Data changed. Run render to update graph`,
             })
             setHasError(false)
           } catch (error) {
@@ -136,6 +153,35 @@ export const RemixDebugger: React.FC = () => {
       })
     }
   }, [hasError])
-  return hasError ? <ErrorView /> : isInitialized ? <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} /> : <HomeView />
 
+  const renderRequested = renderMode => {
+    setRenderMode(renderMode)
+
+    clientInstance.emit("statusChanged", {
+      key: "succeed",
+      type: "success",
+      title: `Control flow graph successfully generated`,
+    })
+  }
+
+  return hasError ? (
+    <ErrorView />
+  ) : isInitialized ? (
+    <div className="d-flex flex-column h-100">
+      <Header
+        contractName={contract}
+        txHash={txHash}
+        onRenderRequest={renderRequested}
+      />
+      <div className="h-100">
+        <Debugger
+          renderTrigger={false}
+          blocks={renderMode && blocks}
+          transactionTrace={renderMode === "traces" ? traces : undefined}
+        />
+      </div>
+    </div>
+  ) : (
+    <HomeView />
+  )
 }
