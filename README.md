@@ -1,7 +1,7 @@
 
 # Control Flow Graph Remix Plugin
 
-[![CircleCI](https://circleci.com/gh/solid-studio/remix-control-flow-graph.svg?style=svg)](https://circleci.com/gh/solid-studio/remix-control-flow-graph) [![Coverage Status](https://coveralls.io/repos/github/solid-studio/remix-control-flow-graph/badge.svg?branch=master)](https://coveralls.io/github/solid-studio/remix-control-flow-graph?branch=master)
+[![CircleCI](https://circleci.com/gh/Machinalabs/remix-control-flow-graph.svg?style=svg)](https://circleci.com/gh/Machinalabs/remix-control-flow-graph) [![Coverage Status](https://coveralls.io/repos/github/solid-studio/remix-control-flow-graph/badge.svg?branch=master)](https://coveralls.io/github/solid-studio/remix-control-flow-graph?branch=master)
 
 ## Features
 
