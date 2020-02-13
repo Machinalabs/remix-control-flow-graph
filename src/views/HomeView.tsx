@@ -38,7 +38,7 @@ export const HomeView: React.FC = () => {
           </a>
           <a
             target="_parent"
-            href="https://github.com/solid-studio/remix-control-flow-graph"
+            href="https://github.com/Machinalabs/remix-control-flow-graph"
             className="card-link"
           >
             Repository
