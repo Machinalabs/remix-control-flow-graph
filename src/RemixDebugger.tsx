@@ -8,19 +8,28 @@ import { HomeView, ErrorView } from "./views"
 import {
   getContractByteCode,
   getSolidityVersionFromData,
-} from "./contract-util"
+} from "./utils/contract-util"
 import { Header } from "./components/header"
+import { Operation, CFGBlocks } from "@ethereum-react/types"
+import {
+  getContractSourceDetails,
+  getActiveSourceForOp,
+} from "./utils/source-utils"
 
 const devMode = { port: 8080 }
 
+interface TxDebugData {
+  blocks: CFGBlocks
+  traces: any
+}
+
 export const RemixDebugger: React.FC = () => {
   const [clientInstance, setClientInstance] = useState(undefined)
-  const [traces, setTraces] = useState(undefined)
+  const [debuggingTx, setDebuggingTx] = useState(undefined)
   const [isInitialized, setIsInitialized] = useState(false)
   const [blocks, setBlocks] = useState(undefined)
   const [hasError, setHasError] = useState(false)
   const [contract, setContract] = useState("")
-  const [txHash, setTxHash] = useState("")
 
   const [renderMode, setRenderMode] = useState(undefined)
 
@@ -42,10 +51,12 @@ export const RemixDebugger: React.FC = () => {
 
         try {
           const { hash, contractAddress } = transaction
+
           const isContractCreation = contractAddress ? true : false
           const traces = await client.call("debugger" as any, "getTrace", hash)
-          console.log("isContractCreation", isContractCreation)
+
           console.log("hash", hash)
+          console.log("isContractCreation", isContractCreation)
           console.log("contractAddress", contractAddress)
           console.log("traces", traces)
 
@@ -56,9 +67,6 @@ export const RemixDebugger: React.FC = () => {
             (compilationResult as any).data,
             isContractCreation
           )
-
-          setContract(`${contractData.contract} - ${contractData.contractFile}`)
-          setTxHash(hash)
           console.log("Contract data", contractData)
 
           const solidityVersion = getSolidityVersionFromData(
@@ -79,8 +87,22 @@ export const RemixDebugger: React.FC = () => {
           if (!blocks) {
             throw new Error("Couldn't get the blocks")
           }
-          setBlocks(blocks)
-          setTraces(traces)
+
+          const sourceMapDetails = getContractSourceDetails(
+            contractData.contractFile,
+            contractData.bytecode,
+            contractData.sourceMap,
+            (compilationResult as any).source
+          )
+
+          setDebuggingTx({
+            contract: `${contractData.contractName} - ${contractData.contractFile}`,
+            txHash: hash,
+            traces,
+            blocks,
+            bytecode: contractData.bytecode,
+            source: sourceMapDetails,
+          })
 
           client.emit("statusChanged", {
             key: "edited",
@@ -114,7 +136,7 @@ export const RemixDebugger: React.FC = () => {
             console.log("Contract data", contractData)
 
             setContract(
-              `${contractData.contract} - ${contractData.contractFile}`
+              `${contractData.contractName} - ${contractData.contractFile}`
             )
 
             const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
@@ -125,7 +147,7 @@ export const RemixDebugger: React.FC = () => {
             console.log("Control flow graph result", controlFlowGraphResult)
 
             setBlocks(controlFlowGraphResult.contractRuntime.blocks)
-            setTraces(undefined)
+            // setTraces(undefined)
 
             client.emit("statusChanged", {
               key: "edited",
@@ -156,6 +178,7 @@ export const RemixDebugger: React.FC = () => {
 
   const renderRequested = renderMode => {
     setRenderMode(renderMode)
+    clientInstance.editor.discardHighlight()
 
     clientInstance.emit("statusChanged", {
       key: "succeed",
@@ -164,21 +187,49 @@ export const RemixDebugger: React.FC = () => {
     })
   }
 
+  const highlightLine = async (op: Operation) => {
+    if (!debuggingTx) {
+      return
+    }
+
+    const sourcePart = getActiveSourceForOp(debuggingTx.source, op.offset)
+
+    if (!sourcePart) {
+      clientInstance.editor.discardHighlight()
+    }
+
+    await clientInstance.editor.highlight(
+      sourcePart,
+      debuggingTx.source.contractFile,
+      "var(--info)"
+    )
+  }
+
   return hasError ? (
     <ErrorView />
   ) : isInitialized ? (
     <div className="d-flex flex-column h-100">
       <Header
-        contractName={contract}
-        txHash={txHash}
+        contractDetails={contract ? { contractName: contract } : null}
+        txDetails={
+          debuggingTx
+            ? { txHash: debuggingTx.txHash, contractName: debuggingTx.contract }
+            : null
+        }
         onRenderRequest={renderRequested}
       />
       <div className="h-100">
-        <Debugger
-          renderTrigger={false}
-          blocks={renderMode && blocks}
-          transactionTrace={renderMode === "traces" ? traces : undefined}
-        />
+        {renderMode === "contract" && (
+          <Debugger renderTrigger={false} blocks={blocks} />
+        )}
+        {renderMode === "traces" && debuggingTx && (
+          <Debugger
+            renderTrigger={false}
+            blocks={debuggingTx.blocks}
+            transactionTrace={debuggingTx.traces}
+            operationSelected={op => highlightLine(op)}
+          />
+        )}
       </div>
     </div>
   ) : (
