@@ -10,10 +10,20 @@ export const getContractByteCode = (
   for (const file of Object.keys(contracts)) {
     for (const contract of Object.keys(contracts[file])) {
       const currentContractEVMData = contracts[file][contract].evm
-      const bytecode = isContractCreation
-        ? currentContractEVMData.bytecode.object
-        : currentContractEVMData.deployedBytecode.object
-      return bytecode
+
+      const contractData = isContractCreation
+        ? currentContractEVMData.bytecode
+        : currentContractEVMData.deployedBytecode
+
+      const bytecode = contractData.object
+      const sourceMap = contractData.sourceMap
+
+      return {
+        contractName: contract,
+        bytecode,
+        sourceMap,
+        contractFile: file,
+      }
     }
   }
 }

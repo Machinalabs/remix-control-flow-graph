@@ -8,16 +8,30 @@ import { HomeView, ErrorView } from "./views"
 import {
   getContractByteCode,
   getSolidityVersionFromData,
-} from "./contract-util"
+} from "./utils/contract-util"
+import { Header } from "./components/header"
+import { Operation, CFGBlocks } from "@ethereum-react/types"
+import {
+  getContractSourceDetails,
+  getActiveSourceForOp,
+} from "./utils/source-utils"
 
-const devMode = { port: 8000 }
+const devMode = { port: 8080 }
+
+interface TxDebugData {
+  blocks: CFGBlocks
+  traces: any
+}
 
 export const RemixDebugger: React.FC = () => {
   const [clientInstance, setClientInstance] = useState(undefined)
-  const [traces, setTraces] = useState(undefined)
+  const [debuggingTx, setDebuggingTx] = useState(undefined)
   const [isInitialized, setIsInitialized] = useState(false)
   const [blocks, setBlocks] = useState(undefined)
   const [hasError, setHasError] = useState(false)
+  const [contract, setContract] = useState("")
+
+  const [renderMode, setRenderMode] = useState(undefined)
 
   useEffect(() => {
     const client = createIframeClient({ devMode })
@@ -29,6 +43,7 @@ export const RemixDebugger: React.FC = () => {
 
       client.udapp.on("newTransaction", async (transaction: any) => {
         console.log("A new transaction was sent", transaction)
+        setRenderMode(null)
 
         if (!isInitialized) {
           setIsInitialized(true)
@@ -36,21 +51,23 @@ export const RemixDebugger: React.FC = () => {
 
         try {
           const { hash, contractAddress } = transaction
+
           const isContractCreation = contractAddress ? true : false
           const traces = await client.call("debugger" as any, "getTrace", hash)
-          console.log("isContractCreation", isContractCreation)
+
           console.log("hash", hash)
+          console.log("isContractCreation", isContractCreation)
           console.log("contractAddress", contractAddress)
           console.log("traces", traces)
 
           const compilationResult = await client.solidity.getCompilationResult()
           console.log("Compilation Result", compilationResult)
 
-          const bytecode = await getContractByteCode(
+          const contractData = await getContractByteCode(
             (compilationResult as any).data,
             isContractCreation
           )
-          console.log("bytecode", bytecode)
+          console.log("Contract data", contractData)
 
           const solidityVersion = getSolidityVersionFromData(
             (compilationResult as any).data
@@ -58,7 +75,7 @@ export const RemixDebugger: React.FC = () => {
           console.log("Solidity version", solidityVersion)
 
           const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-            bytecode,
+            contractData.bytecode,
             solidityVersion
           )
           console.log("Control flow graph result", controlFlowGraphResult)
@@ -70,14 +87,29 @@ export const RemixDebugger: React.FC = () => {
           if (!blocks) {
             throw new Error("Couldn't get the blocks")
           }
-          setBlocks(blocks)
-          setTraces(traces)
+
+          const sourceMapDetails = getContractSourceDetails(
+            contractData.contractFile,
+            contractData.bytecode,
+            contractData.sourceMap,
+            (compilationResult as any).source
+          )
+
+          setDebuggingTx({
+            contract: `${contractData.contractName} - ${contractData.contractFile}`,
+            txHash: hash,
+            traces,
+            blocks,
+            bytecode: contractData.bytecode,
+            source: sourceMapDetails,
+          })
 
           client.emit("statusChanged", {
-            key: "succeed",
+            key: "edited",
             type: "success",
-            title: `Control flow graph successfully generated`,
+            title: `Data changed. Run render to update graph`,
           })
+
           setHasError(false)
         } catch (error) {
           console.log(`An error ocurrer ${error}`)
@@ -89,6 +121,9 @@ export const RemixDebugger: React.FC = () => {
         "compilationFinished",
         async (fileName, source, languageVersion, data) => {
           console.log("A compilation finished")
+
+          setRenderMode(null)
+
           if (!isInitialized) {
             setIsInitialized(true)
           }
@@ -97,23 +132,27 @@ export const RemixDebugger: React.FC = () => {
             const solidityVersion = getSolidityVersionFromData(data)
             console.log("Solidity version", solidityVersion)
 
-            const bytecode = await getContractByteCode(data, false)
-            console.log("Bytecode", bytecode)
+            const contractData = await getContractByteCode(data, false)
+            console.log("Contract data", contractData)
+
+            setContract(
+              `${contractData.contractName} - ${contractData.contractFile}`
+            )
 
             const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
-              bytecode,
+              contractData.bytecode,
               solidityVersion
             )
 
             console.log("Control flow graph result", controlFlowGraphResult)
 
             setBlocks(controlFlowGraphResult.contractRuntime.blocks)
-            setTraces(undefined)
+            // setTraces(undefined)
 
             client.emit("statusChanged", {
-              key: "succeed",
+              key: "edited",
               type: "success",
-              title: `Control flow graph successfully generated`,
+              title: `Data changed. Run render to update graph`,
             })
             setHasError(false)
           } catch (error) {
@@ -136,6 +175,64 @@ export const RemixDebugger: React.FC = () => {
       })
     }
   }, [hasError])
-  return hasError ? <ErrorView /> : isInitialized ? <Debugger renderTrigger={true} blocks={blocks} transactionTrace={traces} /> : <HomeView />
 
+  const renderRequested = renderMode => {
+    setRenderMode(renderMode)
+    clientInstance.editor.discardHighlight()
+
+    clientInstance.emit("statusChanged", {
+      key: "succeed",
+      type: "success",
+      title: `Control flow graph successfully generated`,
+    })
+  }
+
+  const highlightLine = async (op: Operation) => {
+    if (!debuggingTx) {
+      return
+    }
+
+    const sourcePart = getActiveSourceForOp(debuggingTx.source, op.offset)
+
+    if (!sourcePart) {
+      clientInstance.editor.discardHighlight()
+    }
+
+    await clientInstance.editor.highlight(
+      sourcePart,
+      debuggingTx.source.contractFile,
+      "var(--info)"
+    )
+  }
+
+  return hasError ? (
+    <ErrorView />
+  ) : isInitialized ? (
+    <div className="d-flex flex-column h-100">
+      <Header
+        contractDetails={contract ? { contractName: contract } : null}
+        txDetails={
+          debuggingTx
+            ? { txHash: debuggingTx.txHash, contractName: debuggingTx.contract }
+            : null
+        }
+        onRenderRequest={renderRequested}
+      />
+      <div className="h-100">
+        {renderMode === "contract" && (
+          <Debugger renderTrigger={false} blocks={blocks} />
+        )}
+        {renderMode === "traces" && debuggingTx && (
+          <Debugger
+            renderTrigger={false}
+            blocks={debuggingTx.blocks}
+            transactionTrace={debuggingTx.traces}
+            operationSelected={op => highlightLine(op)}
+          />
+        )}
+      </div>
+    </div>
+  ) : (
+    <HomeView />
+  )
 }

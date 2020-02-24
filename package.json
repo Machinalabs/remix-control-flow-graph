@@ -10,8 +10,8 @@
     "test:ci": "jest --runInBand --detectOpenHandles --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=text-lcov | coveralls",
     "tslint": "tslint -p . -c tslint.json",
     "tslint:fix": "tslint --fix -p . -c tslint.json",
-    "prettier": "prettier --write 'src/**/*.{ts,,tsx,js,json}'",
-    "check-formatting": "prettier --list-different 'src/**/*.{ts,ts,js,json}'",
+    "prettier": "prettier --write \"src/**/*.{ts,,tsx,js,json}\"",
+    "check-formatting": "prettier --list-different \"src/**/*.{ts,ts,js,json}\"",
     "publish": "npm run bundle && surge --project ./dist --domain remix-control-flow-gas.surge.sh"
   },
   "keywords": [],
@@ -44,11 +44,12 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "@ethereum-react/components": "^1.9.0",
+    "@ethereum-react/components": "^1.10.0",
     "@ethereum-react/types": "^1.5.0",
     "@ethereum-react/utilities": "^1.6.0",
     "@remixproject/plugin": "^0.1.9",
     "@types/node": "^13.5.2",
+    "classnames": "^2.2.6",
     "d3": "^5.15.0",
     "d3-selection": "^1.4.1",
     "dagre-d3": "^0.6.4",
