@@ -44,7 +44,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "@ethereum-react/components": "^1.10.0",
+    "@ethereum-react/components": "^1.12.1",
     "@ethereum-react/types": "^1.5.0",
     "@ethereum-react/utilities": "^1.6.0",
     "@remixproject/plugin": "^0.1.9",
