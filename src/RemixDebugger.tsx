@@ -9,7 +9,7 @@ import {
   getContractByteCode,
   getSolidityVersionFromData,
 } from "./utils/contract-util"
-import { Header } from "./components/header"
+import { Header } from "./components/Header"
 import { Operation, CFGBlocks } from "@ethereum-react/types"
 import {
   getContractSourceDetails,
@@ -233,6 +233,6 @@ export const RemixDebugger: React.FC = () => {
       </div>
     </div>
   ) : (
-    <HomeView />
-  )
+        <HomeView />
+      )
 }
