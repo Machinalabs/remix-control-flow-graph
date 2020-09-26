@@ -3,6 +3,8 @@
 
 [![CircleCI](https://circleci.com/gh/Machinalabs/remix-control-flow-graph.svg?style=svg)](https://circleci.com/gh/Machinalabs/remix-control-flow-graph) [![Coverage Status](https://coveralls.io/repos/github/solid-studio/remix-control-flow-graph/badge.svg?branch=master)](https://coveralls.io/github/solid-studio/remix-control-flow-graph?branch=master)
 
+<img src="https://res.cloudinary.com/de5hzq1b0/image/upload/v1601108349/remix-plugins/cfg_smo4ht.gif" alt="drawing" width="100%"/>
+
 ## Features
 
 - Interactive control flow graph
