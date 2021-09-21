@@ -31,6 +31,8 @@ export const getContractByteCode = (
 const SOLIDITY_VERSION_4_REGEX = new RegExp(/0.4.\d+/)
 const SOLIDITY_VERSION_5_REGEX = new RegExp(/0.5.\d+/)
 const SOLIDITY_VERSION_6_REGEX = new RegExp(/0.6.\d+/)
+const SOLIDITY_VERSION_7_REGEX = new RegExp(/0.7.\d+/)
+const SOLIDITY_VERSION_8_REGEX = new RegExp(/0.8.\d+/)
 
 export const getSolidityVersionFromData = (data: CompilationResult) => {
   const contracts = data.contracts
@@ -50,6 +52,14 @@ export const getSolidityVersionFromData = (data: CompilationResult) => {
 
       if (compilerVersion.match(SOLIDITY_VERSION_6_REGEX)) {
         return CompilerVersion.SOLIDITY_6
+      }
+
+      if (compilerVersion.match(SOLIDITY_VERSION_7_REGEX)) {
+        return CompilerVersion.SOLIDITY_7
+      }
+
+      if (compilerVersion.match(SOLIDITY_VERSION_8_REGEX)) {
+        return CompilerVersion.SOLIDITY_8
       }
 
       throw new Error(`Unsupported solidity version ${compilerVersion}`)
