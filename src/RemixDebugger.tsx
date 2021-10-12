@@ -76,7 +76,7 @@ export const RemixDebugger: React.FC = () => {
 
           const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
             contractData.bytecode,
-            solidityVersion
+            solidityVersion as any
           )
           console.log("Control flow graph result", controlFlowGraphResult)
 
@@ -141,7 +141,7 @@ export const RemixDebugger: React.FC = () => {
 
             const controlFlowGraphResult = new ControlFlowGraphCreator().buildControlFlowGraph(
               contractData.bytecode,
-              solidityVersion
+              solidityVersion as any
             )
 
             console.log("Control flow graph result", controlFlowGraphResult)
