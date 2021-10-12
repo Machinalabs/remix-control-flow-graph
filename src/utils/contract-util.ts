@@ -1,12 +1,5 @@
 import { CompilationResult } from "@remixproject/plugin"
-
-export enum CompilerVersion {
-  SOLIDITY_4 = "SOLIDITY_4",
-  SOLIDITY_5 = "SOLIDITY_5",
-  SOLIDITY_6 = "SOLIDITY_7",
-  SOLIDITY_7 = "SOLIDITY_7",
-  SOLIDITY_8 = "SOLIDITY_8",
-}
+import { CompilerVersion } from "@ethereum-react/types"
 
 export const getContractByteCode = (
   data: CompilationResult,

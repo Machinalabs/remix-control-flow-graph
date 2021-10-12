@@ -1,4 +1,5 @@
-import { getContractByteCode, getSolidityVersionFromData, CompilerVersion } from '../src/utils/contract-util'
+import { CompilerVersion } from '@ethereum-react/types'
+import { getContractByteCode, getSolidityVersionFromData } from '../src/utils/contract-util'
 import { buildFakeCompilationResult, runtimeBytecode, bytecode } from './faker'
 
 describe("Contract utils test", () => {
