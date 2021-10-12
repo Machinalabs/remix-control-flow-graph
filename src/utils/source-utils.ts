@@ -1,6 +1,6 @@
 import { StructLog } from "@ethereum-react/types"
-import Common from '@ethereumjs/common'
-import { getOpcodesForHF } from '@ethereumjs/vm/dist/evm/opcodes'
+import Common from "@ethereumjs/common"
+import { getOpcodesForHF } from "@ethereumjs/vm/dist/evm/opcodes"
 
 export const getContractSourceDetails = (
   file: string,
@@ -12,7 +12,9 @@ export const getContractSourceDetails = (
     ? compilationSources.sources[file].content
     : null
 
-  const [code, instructionsIndexByBytesOffset] = nameOpCodes(Buffer.from(bytecode, 'hex'))
+  const [code, instructionsIndexByBytesOffset] = nameOpCodes(
+    Buffer.from(bytecode, "hex")
+  )
   return {
     sourceCode: originalSourceCode,
     sourceMapDetails: {
@@ -47,7 +49,7 @@ export const buildPcToInstructionMapping = (codeHexStr: string) => {
   console.log("codeHexStr.length", codeHexStr.length)
   console.log("codeHexStr", codeHexStr)
 
-  for (let pc = 0; pc < codeHexStr.length / 2;) {
+  for (let pc = 0; pc < codeHexStr.length / 2; ) {
     mapping[pc] = instructionIndex
 
     const byteHex = codeHexStr[pc * 2] + codeHexStr[pc * 2 + 1]
@@ -162,11 +164,11 @@ export const getActiveSourceForOp = (contractSourceData, opOffset: number) => {
   }
 }
 
-export const nameOpCodes = (raw, hardfork = 'london') => {
-  const common = new Common({ chain: 'mainnet', hardfork })
+export const nameOpCodes = (raw, hardfork = "london") => {
+  const common = new Common({ chain: "mainnet", hardfork })
   const opcodes = getOpcodesForHF(common)
 
-  let pushData = ''
+  let pushData = ""
   const codeMap = {}
   const code = []
 
@@ -176,27 +178,30 @@ export const nameOpCodes = (raw, hardfork = 'london') => {
     try {
       curOpCode = opcodes.get(raw[pc]).fullName
     } catch (e) {
-      curOpCode = 'INVALID'
+      curOpCode = "INVALID"
     }
     codeMap[i] = code.length
     // no destinations into the middle of PUSH
-    if (curOpCode.slice(0, 4) === 'PUSH') {
+    if (curOpCode.slice(0, 4) === "PUSH") {
       const jumpNum = raw[pc] - 0x5f
       pushData = raw.slice(pc + 1, pc + jumpNum + 1)
       i += jumpNum
     }
 
-    const data = (pushData as any).toString('hex') !== '' ? ' ' + (pushData as any).toString('hex') : ''
+    const data =
+      (pushData as any).toString("hex") !== ""
+        ? " " + (pushData as any).toString("hex")
+        : ""
 
-    code.push(pad(pc, roundLog(raw.length, 10)) + ' ' + curOpCode + data)
-    pushData = ''
+    code.push(pad(pc, roundLog(raw.length, 10)) + " " + curOpCode + data)
+    pushData = ""
   }
   return [code, codeMap]
 }
 
 export function pad(num, size) {
-  let s = num + ''
-  while (s.length < size) s = '0' + s
+  let s = num + ""
+  while (s.length < size) s = "0" + s
   return s
 }
 

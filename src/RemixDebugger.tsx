@@ -233,6 +233,6 @@ export const RemixDebugger: React.FC = () => {
       </div>
     </div>
   ) : (
-        <HomeView />
-      )
+    <HomeView />
+  )
 }
