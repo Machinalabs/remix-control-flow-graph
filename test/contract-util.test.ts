@@ -9,7 +9,7 @@ describe("Contract utils test", () => {
 
             const result = getContractByteCode(fakeCompilationResult, true)
 
-            expect(result).toEqual(bytecode)
+            expect(result.bytecode).toEqual(bytecode)
         })
 
         test('bytecode for contract runtime', () => {
@@ -17,7 +17,7 @@ describe("Contract utils test", () => {
 
             const result = getContractByteCode(fakeCompilationResult, false)
 
-            expect(result).toEqual(runtimeBytecode)
+            expect(result.bytecode).toEqual(runtimeBytecode)
         })
     })
 
