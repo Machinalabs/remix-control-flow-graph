@@ -2,7 +2,7 @@ version: 2.0
 
 aliases:
   - &nodejs-docker-image
-    - image: circleci/node:8.12.0
+    - image: circleci/node:14.18.0
   
   - &restore_cache
     restore_cache:
