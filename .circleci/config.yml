@@ -100,7 +100,6 @@ workflows:
           requires:
             - tslint-and-format
             - unit-tests
-            - npm-audit
       - publish:
           context: SolidStudio
           requires:
