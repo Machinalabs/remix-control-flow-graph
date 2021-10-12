@@ -194,9 +194,7 @@ export const RemixDebugger: React.FC = () => {
 
     const sourcePart = getActiveSourceForOp(debuggingTx.source, op.offset)
 
-    if (!sourcePart) {
-      clientInstance.editor.discardHighlight()
-    }
+    clientInstance.editor.discardHighlight()
 
     await clientInstance.editor.highlight(
       sourcePart,
